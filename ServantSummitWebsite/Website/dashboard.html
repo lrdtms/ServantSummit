@@ -13,21 +13,23 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #f7f3f0 0%, #f1e8e0 100%);
+            /* Keep overall background white */
+            background: #ffffff;
         }
         
         .warm-shadow {
-            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.1);
+            /* Subtle gold-tinted shadow */
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.12);
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #d2691e 0%, #8b4513 100%);
+            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
             transition: all 0.3s ease;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
         }
         
         .btn-danger {
@@ -55,7 +57,7 @@
         }
         
         .tab-button.active {
-            background: linear-gradient(135deg, #d2691e 0%, #8b4513 100%);
+            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
             color: white;
         }
         
@@ -112,9 +114,34 @@
             max-height: 90vh;
             overflow-y: auto;
         }
+
+        /* Gold theme overrides to complement purple */
+        .theme-gold .text-amber-900 { color: #8a6d1f !important; }
+        .theme-gold .text-amber-800 { color: #a07f1a !important; }
+        .theme-gold .text-amber-700, .theme-gold .text-amber-701 { color: #b98f1d !important; }
+        .theme-gold .text-amber-600 { color: #caa431 !important; }
+
+        .theme-gold .border-amber-200 { border-color: #fde68a !important; }
+        .theme-gold .border-amber-300 { border-color: #fcd34d !important; }
+        .theme-gold .border-amber-500 { border-color: #eab308 !important; }
+        .theme-gold .border-amber-600 { border-color: #ca8a04 !important; }
+
+        .theme-gold .bg-amber-50 { background-color: #fffbeb !important; }
+        .theme-gold .bg-amber-100 { background-color: #fef9c3 !important; }
+
+        .theme-gold .hover\:bg-amber-50:hover { background-color: #fef9c3 !important; }
+
+        /* Convert orange/amber gradients to gold */
+        .theme-gold .from-orange-400 { --tw-gradient-from: #facc15 !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(250 204 21 / 0)) !important; }
+        .theme-gold .to-amber-600 { --tw-gradient-to: #ca8a04 !important; }
+        .theme-gold .from-amber-400 { --tw-gradient-from: #facc15 !important; }
+        .theme-gold .to-amber-600 { --tw-gradient-to: #ca8a04 !important; }
+        
+        /* Focus ring tint approximation for gold */
+        .theme-gold .focus\:ring-amber-400:focus { --tw-ring-color: #facc15 !important; }
     </style>
 </head>
-<body class="gradient-bg min-h-screen">
+<body class="gradient-bg min-h-screen theme-gold">
     <!-- Login Page -->
     <div id="loginPage" class="min-h-screen flex items-center justify-center px-6">
         <div class="bg-white rounded-2xl p-8 warm-shadow max-w-md w-full">
@@ -155,7 +182,7 @@
     <!-- Dashboard -->
     <div id="dashboardPage" class="hidden">
         <!-- Top Navigation -->
-        <nav class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 warm-shadow">
+        <nav class="bg-purple-700 sticky top-0 z-50 warm-shadow">
             <div class="max-w-7xl mx-auto px-6 py-4">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-3">
@@ -163,16 +190,16 @@
                             <span class="text-white font-bold text-lg">S</span>
                         </div>
                         <div>
-                            <h1 class="text-xl font-bold text-amber-900">Admin Dashboard</h1>
-                            <p class="text-xs text-amber-600">Servant Summit Church</p>
+                            <h1 class="text-xl font-bold text-white">Admin Dashboard</h1>
+                            <p class="text-xs text-purple-100">Servant Summit Church</p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="text-right hidden md:block">
-                            <p class="text-sm font-medium text-amber-900" id="adminName">Admin User</p>
-                            <p class="text-xs text-amber-600">Church Administrator</p>
+                            <p class="text-sm font-medium text-white" id="adminName">Admin User</p>
+                            <p class="text-xs text-purple-100">Church Administrator</p>
                         </div>
-                        <button onclick="handleLogout()" class="px-4 py-2 border-2 border-amber-600 text-amber-700 rounded-lg font-semibold hover:bg-amber-50 transition-all">
+                        <button onclick="handleLogout()" class="px-4 py-2 border-2 border-purple-200 text-white rounded-lg font-semibold hover:bg-purple-600/60 transition-all">
                             Logout
                         </button>
                     </div>
@@ -230,6 +257,9 @@
                 </button>
                 <button onclick="showSection('donations')" class="tab-button px-6 py-3 rounded-lg font-semibold text-amber-800">
                     Donations
+                </button>
+                <button onclick="showSection('gallery')" class="tab-button px-6 py-3 rounded-lg font-semibold text-amber-800">
+                    Gallery
                 </button>
             </div>
 
@@ -353,6 +383,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Gallery Section -->
+            <div id="gallerySection" class="dashboard-section">
+                <div class="bg-white rounded-xl p-6 warm-shadow">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-amber-900">Gallery Management</h2>
+                        <button onclick="openFolderModal()" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold">+ New Album</button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b-2 border-amber-200">
+                                    <th class="text-left py-3 px-4 text-amber-800 font-semibold">Album</th>
+                                    <th class="text-left py-3 px-4 text-amber-800 font-semibold">Photos</th>
+                                    <th class="text-left py-3 px-4 text-amber-800 font-semibold">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="galleryTableBody">
+                                <tr>
+                                    <td colspan="3" class="text-center py-8 text-amber-600">No albums yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -413,6 +470,51 @@
         </div>
     </div>
 
+    <!-- Folder Modal -->
+    <div id="folderModal" class="modal">
+        <div class="modal-content p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="folderModalTitle" class="text-2xl font-bold text-gray-800">New Album</h2>
+                <button onclick="closeFolderModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form id="folderForm" onsubmit="handleFolderSubmit(event)">
+                <input type="hidden" id="folderId" value="">
+                <div class="space-y-4">
+                    <div>
+                        <label for="folderName" class="block text-sm font-medium text-gray-700 mb-2">Album Name *</label>
+                        <input type="text" id="folderName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label for="folderDesc" class="block text-sm font-medium text-gray-700 mb-2">Description (optional)</label>
+                        <textarea id="folderDesc" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="submit" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold flex-1">Save Album</button>
+                    <button type="button" onclick="closeFolderModal()" class="btn-secondary text-white px-6 py-3 rounded-lg font-semibold">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Images Modal -->
+    <div id="imagesModal" class="modal">
+        <div class="modal-content p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="imagesModalTitle" class="text-2xl font-bold text-gray-800">Manage Photos</h2>
+                <button onclick="closeImagesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex gap-2">
+                    <input type="text" id="newImageUrl" placeholder="Paste image URL" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <button onclick="addImageToFolder()" class="btn-primary text-white px-4 py-3 rounded-lg font-semibold">Add</button>
+                </div>
+                <div id="imagesList" class="space-y-2 max-h-[50vh] overflow-y-auto"></div>
+                <div class="text-xs text-amber-700">Tip: Use direct image URLs (e.g., from an image host). First image becomes the album cover.</div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Demo data storage (in production, this would be a backend database)
         let members = JSON.parse(localStorage.getItem('churchMembers')) || [];
@@ -447,7 +549,19 @@
         }
         
         let messages = JSON.parse(localStorage.getItem('churchMessages')) || [];
-        let donations = JSON.parse(localStorage.getItem('churchDonations')) || [];
+    let donations = JSON.parse(localStorage.getItem('churchDonations')) || [];
+        let gallery = JSON.parse(localStorage.getItem('churchGallery')) || [];
+        if (gallery.length === 0) {
+            gallery = [
+                {
+                    id: Date.now(),
+                    name: 'Church Family',
+                    description: 'Highlights from recent gatherings',
+                    images: []
+                }
+            ];
+            localStorage.setItem('churchGallery', JSON.stringify(gallery));
+        }
 
         // Login handling
         function handleLogin(event) {
@@ -488,6 +602,7 @@
             if (section === 'events') loadEvents();
             if (section === 'messages') loadMessages();
             if (section === 'donations') loadDonations();
+            if (section === 'gallery') loadGallery();
         }
 
         // Update dashboard stats
@@ -746,6 +861,145 @@
 
         // Initialize dashboard
         updateDashboard();
+
+        // --------- Gallery Management ---------
+        function loadGallery() {
+            const tbody = document.getElementById('galleryTableBody');
+            if (!gallery || gallery.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-amber-600">No albums yet</td></tr>';
+                return;
+            }
+            tbody.innerHTML = gallery.map((folder, idx) => `
+                <tr class="border-b border-amber-100">
+                    <td class="py-3 px-4">
+                        <div class="flex items-center gap-3">
+                            ${folder.images && folder.images[0] ? `<img src="${folder.images[0]}" class="w-14 h-14 object-cover rounded-lg" alt="cover">` : `<div class='w-14 h-14 rounded-lg bg-amber-50 border border-amber-200'></div>`}
+                            <div>
+                                <div class="text-amber-900 font-medium">${folder.name}</div>
+                                <div class="text-xs text-amber-600">${folder.description || ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4 text-amber-700">${(folder.images?.length || 0)}</td>
+                    <td class="py-3 px-4">
+                        <button onclick="openImagesModal(${idx})" class="text-blue-600 hover:text-blue-800 mr-3">Manage Photos</button>
+                        <a href="gallery.html?folder=${encodeURIComponent(folder.id)}" target="_blank" class="text-amber-800 hover:underline mr-3">Open</a>
+                        <button onclick="editFolder(${idx})" class="text-amber-700 hover:text-amber-900 mr-3">Edit</button>
+                        <button onclick="deleteFolder(${idx})" class="text-red-600 hover:text-red-800">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openFolderModal(index = null) {
+            document.getElementById('folderModal').classList.add('active');
+            if (index !== null) {
+                const f = gallery[index];
+                document.getElementById('folderModalTitle').textContent = 'Edit Album';
+                document.getElementById('folderId').value = index;
+                document.getElementById('folderName').value = f.name;
+                document.getElementById('folderDesc').value = f.description || '';
+            } else {
+                document.getElementById('folderModalTitle').textContent = 'New Album';
+                document.getElementById('folderId').value = '';
+                document.getElementById('folderForm').reset();
+            }
+        }
+
+        function closeFolderModal() {
+            document.getElementById('folderModal').classList.remove('active');
+            document.getElementById('folderForm').reset();
+        }
+
+        function handleFolderSubmit(e) {
+            e.preventDefault();
+            const payload = {
+                id: Date.now(),
+                name: document.getElementById('folderName').value.trim(),
+                description: document.getElementById('folderDesc').value.trim(),
+                images: []
+            };
+            const idx = document.getElementById('folderId').value;
+            if (idx === '') {
+                gallery.push(payload);
+                alert('Album created');
+            } else {
+                const originalId = gallery[idx].id; // preserve id
+                gallery[idx] = { ...payload, id: originalId, images: gallery[idx].images || [] };
+                alert('Album updated');
+            }
+            localStorage.setItem('churchGallery', JSON.stringify(gallery));
+            closeFolderModal();
+            loadGallery();
+        }
+
+        function editFolder(index) { openFolderModal(index); }
+
+        function deleteFolder(index) {
+            if (confirm('Delete this album and all its photos?')) {
+                gallery.splice(index, 1);
+                localStorage.setItem('churchGallery', JSON.stringify(gallery));
+                loadGallery();
+            }
+        }
+
+        let imagesFolderIndex = null;
+        function openImagesModal(index) {
+            imagesFolderIndex = index;
+            document.getElementById('imagesModal').classList.add('active');
+            document.getElementById('imagesModalTitle').textContent = `Manage Photos · ${gallery[index].name}`;
+            renderImagesList();
+        }
+        function closeImagesModal() {
+            imagesFolderIndex = null;
+            document.getElementById('imagesModal').classList.remove('active');
+            document.getElementById('newImageUrl').value = '';
+            document.getElementById('imagesList').innerHTML = '';
+        }
+        function renderImagesList() {
+            const list = document.getElementById('imagesList');
+            const imgs = gallery[imagesFolderIndex].images || [];
+            if (imgs.length === 0) {
+                list.innerHTML = '<div class="text-amber-700">No photos yet.</div>';
+                return;
+            }
+            list.innerHTML = imgs.map((src, i) => `
+                <div class="flex items-center gap-3 border border-amber-200 rounded-lg p-2">
+                    <img src="${src}" class="w-16 h-16 object-cover rounded" alt="img ${i+1}">
+                    <div class="flex-1 text-sm text-amber-800 truncate">${src}</div>
+                    ${i === 0 ? '<span class="text-xs text-amber-700 mr-2">Cover</span>' : ''}
+                    <button onclick="moveImage(${i}, -1)" class="text-xs px-2 py-1 border rounded mr-1 disabled:opacity-40" ${i===0?'disabled':''}>Up</button>
+                    <button onclick="moveImage(${i}, 1)" class="text-xs px-2 py-1 border rounded mr-1 disabled:opacity-40" ${i===imgs.length-1?'disabled':''}>Down</button>
+                    <button onclick="removeImage(${i})" class="text-xs text-red-600">Remove</button>
+                </div>
+            `).join('');
+        }
+        function addImageToFolder() {
+            const input = document.getElementById('newImageUrl');
+            const url = input.value.trim();
+            if (!url) return;
+            gallery[imagesFolderIndex].images = gallery[imagesFolderIndex].images || [];
+            gallery[imagesFolderIndex].images.push(url);
+            localStorage.setItem('churchGallery', JSON.stringify(gallery));
+            input.value = '';
+            renderImagesList();
+            loadGallery();
+        }
+        function removeImage(i) {
+            gallery[imagesFolderIndex].images.splice(i,1);
+            localStorage.setItem('churchGallery', JSON.stringify(gallery));
+            renderImagesList();
+            loadGallery();
+        }
+        function moveImage(i, dir) {
+            const imgs = gallery[imagesFolderIndex].images;
+            const j = i + dir;
+            if (j < 0 || j >= imgs.length) return;
+            [imgs[i], imgs[j]] = [imgs[j], imgs[i]];
+            localStorage.setItem('churchGallery', JSON.stringify(gallery));
+            renderImagesList();
+            loadGallery();
+        }
     </script>
 </body>
 </html>

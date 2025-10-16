@@ -1,10 +1,11 @@
 # Servant Summit Church Website
 
-A modern, responsive church website with an administrative dashboard for managing members, events, messages, and donations.
+A modern, responsive church website with an administrative dashboard for managing members, events, messages, donations, and a photo gallery.
 
 ## Files
 
-- **index.html** - Main public website with pages for Home, About, Events, Register, Donate, and Contact
+- **index.html** - Main public website with pages for Home, About, Events, Gallery, Register, Donate, and Contact
+- **gallery.html** - Dedicated album viewer page (opened when clicking an album)
 - **dashboard.html** - Admin dashboard for church staff to manage all data
 
 ## Features
@@ -13,6 +14,7 @@ A modern, responsive church website with an administrative dashboard for managin
 - Home page with church information
 - About page with mission and values
 - Events page showing upcoming church events
+- Gallery page showing albums (folders) with cover image (first photo)
 - Registration form for new members
 - Donation page for online giving
 - Contact form for inquiries and prayer requests
@@ -23,6 +25,7 @@ A modern, responsive church website with an administrative dashboard for managin
 - **Events Management**: Add, edit, and delete church events
 - **Messages**: View and manage contact form submissions
 - **Donations**: Track and monitor all donations with financial summaries
+- **Gallery Management**: Create albums (folders), add/remove/reorder images by URL. First image is used as album cover. Open album via the "Open" link.
 - Real-time statistics dashboard
 
 ## How to Use
@@ -47,6 +50,19 @@ Currently, all data is stored locally in the browser's localStorage. This means:
 - Data is specific to each browser
 - For production use, you'll want to integrate with a backend database
 
+Gallery data shape (localStorage key `churchGallery`):
+
+```
+[
+   {
+      id: number,            // unique id
+      name: string,          // album name
+      description?: string,  // optional
+      images: string[]       // list of direct image URLs; first image is the cover
+   }
+]
+```
+
 ## Future Enhancements
 
 - Backend database integration (MySQL, PostgreSQL, etc.)
@@ -56,6 +72,7 @@ Currently, all data is stored locally in the browser's localStorage. This means:
 - Multi-user authentication with role-based access
 - Email receipts for donations
 - Calendar integration for events
+- Drag-and-drop image upload for Gallery (with storage backend)
 
 ## Security Note
 

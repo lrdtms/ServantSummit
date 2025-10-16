@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Servant Summit Church</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: #ffffff; }
+        .warm-shadow { box-shadow: 0 10px 25px rgba(212, 175, 55, 0.12); }
+        .btn-primary { background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35); }
+        .theme-gold .text-amber-900 { color: #8a6d1f !important; }
+        .theme-gold .text-amber-800 { color: #a07f1a !important; }
+        .theme-gold .text-amber-700 { color: #b98f1d !important; }
+        .theme-gold .bg-amber-50 { background-color: #fffbeb !important; }
+    </style>
+    <script>
+        function getQueryParam(key) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(key);
+        }
+        function loadFolder() {
+            const folderId = getQueryParam('folder');
+            const titleEl = document.getElementById('folderTitle');
+            const grid = document.getElementById('imagesGrid');
+            const empty = document.getElementById('imagesEmpty');
+
+            const gallery = JSON.parse(localStorage.getItem('churchGallery')) || [];
+            const folder = gallery.find(f => String(f.id) === String(folderId) || String(f.name) === String(folderId));
+            if (!folder) {
+                titleEl.textContent = 'Album not found';
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+            titleEl.textContent = folder.name;
+
+            if (!folder.images || folder.images.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+            grid.innerHTML = folder.images.map((src, i) => `
+                <div class="bg-white rounded-2xl p-4 warm-shadow">
+                    <img src="${src}" alt="${folder.name} ${i+1}" class="w-full h-56 object-cover rounded-xl">
+                </div>
+            `).join('');
+        }
+        window.addEventListener('DOMContentLoaded', loadFolder);
+    </script>
+    
+</head>
+<body class="gradient-bg min-h-screen theme-gold">
+    <!-- Top Navigation -->
+    <nav class="bg-purple-700 sticky top-0 z-50 warm-shadow">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold text-lg">S</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">Servant Summit Church</h1>
+                    <p class="text-xs text-purple-100">Gallery</p>
+                </div>
+            </a>
+            <div>
+                <a href="index.html" class="px-4 py-2 border-2 border-purple-200 text-white rounded-lg font-semibold hover:bg-purple-600/60 transition-all">Back to Site</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="max-w-7xl mx-auto px-6 py-10">
+        <div class="flex items-center justify-between mb-6">
+            <h2 id="folderTitle" class="text-3xl font-bold text-amber-900">Album</h2>
+            <a href="index.html#gallery" class="text-amber-700 hover:underline">← Back to all albums</a>
+        </div>
+        <div id="imagesEmpty" class="bg-amber-50 border border-amber-200 rounded-xl p-6 text-amber-800 hidden">
+            No images in this album yet. Check back later.
+        </div>
+        <div id="imagesGrid" class="grid md:grid-cols-3 gap-6"></div>
+    </div>
+</body>
+</html>

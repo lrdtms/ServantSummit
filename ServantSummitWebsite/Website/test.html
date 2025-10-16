@@ -72,12 +72,20 @@
         <p>This will add a test donation with donor name and email.</p>
     </div>
 
+    <div class="section">
+        <h2>🖼️ Gallery Test</h2>
+        <button onclick="seedTestGallery()">Seed Test Album + Images</button>
+        <button onclick="clearGallery()">Clear Gallery</button>
+        <p id="galleryStatus"></p>
+    </div>
+
     <script>
         function viewData() {
             const members = JSON.parse(localStorage.getItem('churchMembers')) || [];
             const events = JSON.parse(localStorage.getItem('churchEvents')) || [];
             const messages = JSON.parse(localStorage.getItem('churchMessages')) || [];
             const donations = JSON.parse(localStorage.getItem('churchDonations')) || [];
+            const gallery = JSON.parse(localStorage.getItem('churchGallery')) || [];
 
             const display = document.getElementById('dataDisplay');
             display.innerHTML = `
@@ -92,6 +100,9 @@
                 
                 <h3>Donations (${donations.length})</h3>
                 <pre>${JSON.stringify(donations, null, 2)}</pre>
+
+                <h3>Gallery (${gallery.length} album(s))</h3>
+                <pre>${JSON.stringify(gallery, null, 2)}</pre>
             `;
         }
 
@@ -177,6 +188,31 @@
             localStorage.setItem('churchDonations', JSON.stringify(donations));
             
             alert('✅ Test donation added! Check dashboard.html to see it.');
+            viewData();
+        }
+
+        function seedTestGallery() {
+            const now = Date.now();
+            const gallery = [
+                {
+                    id: now,
+                    name: 'Sample Album',
+                    description: 'Demo images to test rendering',
+                    images: [
+                        'https://images.unsplash.com/photo-1520975922284-85d3a6f2e9aa?q=80&w=1200&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop'
+                    ]
+                }
+            ];
+            localStorage.setItem('churchGallery', JSON.stringify(gallery));
+            document.getElementById('galleryStatus').textContent = '✅ Gallery seeded. Open index.html#gallery to see the album.';
+            viewData();
+        }
+
+        function clearGallery() {
+            localStorage.removeItem('churchGallery');
+            document.getElementById('galleryStatus').textContent = '🗑️ Gallery cleared';
             viewData();
         }
 
